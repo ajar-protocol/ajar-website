@@ -35,6 +35,17 @@ const pages = [
 
 const handPages = [
   ['index.mdx', 'index.mdx'],
+  ['concepts/index.mdx', 'concepts/index.mdx'],
+  ['concepts/problem-statement.mdx', 'concepts/problem-statement.mdx'],
+  ['concepts/owner-contract.mdx', 'concepts/owner-contract.mdx'],
+  ['concepts/discovery-and-verification.mdx', 'concepts/discovery-and-verification.mdx'],
+  ['concepts/access-and-authentication.mdx', 'concepts/access-and-authentication.mdx'],
+  ['concepts/delegated-authority.mdx', 'concepts/delegated-authority.mdx'],
+  ['concepts/model-safety.mdx', 'concepts/model-safety.mdx'],
+  ['concepts/action-safety.mdx', 'concepts/action-safety.mdx'],
+  ['concepts/receipts-and-accountability.mdx', 'concepts/receipts-and-accountability.mdx'],
+  ['concepts/metering-and-settlement.mdx', 'concepts/metering-and-settlement.mdx'],
+  ['concepts/end-to-end-flow.mdx', 'concepts/end-to-end-flow.mdx'],
   ['schemas.mdx', 'reference/schemas.mdx'],
   ['test-vectors.mdx', 'reference/test-vectors.mdx'],
 ];
@@ -44,7 +55,26 @@ const metaFiles = [
     'meta.json',
     {
       title: 'Ajar Protocol',
-      pages: ['index', 'protocol', 'reference', 'contributing', 'project'],
+      pages: ['index', 'concepts', 'protocol', 'reference', 'contributing', 'project'],
+    },
+  ],
+  [
+    'concepts/meta.json',
+    {
+      title: 'Concepts',
+      pages: [
+        'index',
+        'problem-statement',
+        'owner-contract',
+        'discovery-and-verification',
+        'access-and-authentication',
+        'delegated-authority',
+        'model-safety',
+        'action-safety',
+        'receipts-and-accountability',
+        'metering-and-settlement',
+        'end-to-end-flow',
+      ],
     },
   ],
   [

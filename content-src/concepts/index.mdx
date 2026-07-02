@@ -1,0 +1,28 @@
+---
+title: "Concepts"
+description: "Plain-language pages that explain the problems Ajar handles and how the protocol resolves them."
+---
+
+This section explains Ajar from the problem outward. The protocol spec is the
+source of truth for exact objects and requirements. These pages explain why those
+objects exist, what used to go wrong without them, and how Ajar changes the
+flow.
+
+Read these when you want the reasoning before the fields.
+
+| Page | What it explains |
+|---|---|
+| [Problem statement](/docs/concepts/problem-statement) | Why scraping, forms, browser sessions, and weak proof are not enough |
+| [Owner contract](/docs/concepts/owner-contract) | How a signed manifest lets the website owner say what agents may read or do |
+| [Discovery and verification](/docs/concepts/discovery-and-verification) | Why indexes help discovery but the origin manifest remains the authority |
+| [Public, private, and authenticated access](/docs/concepts/access-and-authentication) | Why public reads can be simple, while account data needs delegated authority |
+| [Delegated authority](/docs/concepts/delegated-authority) | How mandates replace broad session sharing with scoped, revocable permission |
+| [Model safety](/docs/concepts/model-safety) | Why the model proposes while deterministic code enforces authority |
+| [Action safety](/docs/concepts/action-safety) | How risk classes, SIMULATE, Offer, and Commit reduce action mistakes |
+| [Receipts and accountability](/docs/concepts/receipts-and-accountability) | How signed receipts leave evidence after consequential actions |
+| [Metering and settlement](/docs/concepts/metering-and-settlement) | How Ajar declares price and settlement without becoming a payment rail |
+| [End-to-end flow](/docs/concepts/end-to-end-flow) | How the pieces fit together from owner setup to receipt |
+
+The short version: Ajar does not try to make agents better at guessing websites.
+It gives websites a way to publish a contract that agents can verify before they
+read, act, or pay.

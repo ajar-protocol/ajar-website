@@ -1,0 +1,110 @@
+---
+title: "End-to-End Flow"
+description: "A complete walkthrough from website owner setup to agent read, simulation, commit, and receipt."
+---
+
+This page shows the Ajar flow as one story. The exact schemas live in the
+protocol spec. The goal here is to show how the pieces fit together.
+
+## 1. The owner prepares the site
+
+A website owner installs an Ajar Gateway, plugin, edge worker, or native
+integration. The integration reads the existing site: CMS data, product data,
+OpenAPI descriptions, forms, templates, and public pages.
+
+The system drafts semantic Views and possible Actions. Nothing should go public
+automatically. The owner reviews what would be exposed, which agents may access
+it, whether calls are free or metered, and which actions require mandates or
+human approval.
+
+The owner signs the Capability Manifest. That manifest becomes the public
+contract at `/.well-known/ajar.json`.
+
+## 2. The agent discovers the site
+
+An agent may find the site through an index, a user-provided URL, a search
+result, a known enterprise directory, or a link in HTML.
+
+Discovery is only the starting point. The Kernel fetches the manifest from the
+origin and verifies the owner signature, expiry, sequence, and domain binding.
+If verification fails, the site is treated as not having a trusted Ajar contract.
+
+## 3. The agent reads public content
+
+For public content, the agent can request semantic Views using content
+negotiation. A docs page, product page, or public catalog entry can return
+structured chunks instead of forcing the agent to scrape HTML.
+
+The model can reason over those chunks, but the Kernel tracks their origin and
+treats them as data. The page content does not become executable authority.
+
+## 4. The user delegates private access
+
+If the task needs account data, the user logs in through the normal website flow.
+The site links the account to the user's principal key.
+
+The user then signs a mandate for the agent. The mandate might allow reading the
+current cart, changing the cart, buying one item under a cap, or exporting a
+specific file. It can be short-lived and revocable.
+
+The agent still does not get the user's raw session. It gets a signed delegation
+that the Kernel and Gateway can verify.
+
+## 5. The model proposes an action
+
+The model may propose an action such as:
+
+"Add this product to the cart."
+
+or:
+
+"Buy the refundable ticket if the total is under INR 5,000."
+
+The proposal is not enough. The Kernel checks that the action is declared in the
+manifest, that the input matches the schema, that the risk class is understood,
+and that the mandate can cover the requested work.
+
+## 6. The Kernel simulates risky work
+
+For R1+ actions, and especially for R2/R3 actions, the Kernel asks the site to
+SIMULATE. The site returns the predicted result, resolved effects, total cost,
+warnings, and validity window without changing state.
+
+The Kernel compares the simulation result to the mandate. If the price exceeds
+the cap, if the domain is not allowed, if the action is forbidden, or if the risk
+is too high, the Kernel stops.
+
+## 7. The site issues an offer
+
+For two-phase actions, the agent proposes under Ajar mode. The site returns a
+signed Offer. The offer freezes the action id, input hash, resolved effects,
+total cost, expiry, and other terms.
+
+The Offer is the site's signed statement of what it is willing to execute.
+
+## 8. The agent commits
+
+The Kernel commits only if the mandate, simulation, offer, and policy still
+match. It signs the commit over the offer and mandate binding.
+
+The Gateway verifies the agent signature, mandate signature, revocation status,
+scope coverage, caps, expiry, idempotency, and owner policy. If any required
+check fails, the site should fail closed.
+
+## 9. The site executes and returns a receipt
+
+Only after those checks does the site touch the real backend: cart, booking,
+message, order, export, payment adapter, or account state.
+
+The site returns a signed Receipt. The agent signs or retains the corresponding
+record. Both sides now have a shared artifact that says what happened.
+
+## What the flow solves
+
+The website owner stays in control of exposure. The user delegates only narrow
+authority. The agent does not need a raw session. Risky actions rehearse before
+they execute. Costs and effects are checked against caps. Receipts give both
+sides evidence.
+
+That is the core Ajar promise: not smarter scraping, but a safer contract for
+agent access.

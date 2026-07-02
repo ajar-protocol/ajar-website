@@ -1,0 +1,78 @@
+---
+title: "Delegated Authority"
+description: "Mandates let a user or organization authorize an agent narrowly, instead of giving it broad account power."
+---
+
+Delegated authority is the part of Ajar that answers: who allowed this agent to
+act, and how far does that permission go?
+
+The answer is a mandate.
+
+A mandate is a signed authorization from a principal to an agent key. It carries
+scopes, caps, domain constraints, validity dates, and revocation. The mandate is
+not a password and not a browser cookie. It is a limited instruction that can be
+checked by deterministic code.
+
+## Before Ajar
+
+Most websites understand two states: logged out or logged in. That is not enough
+for agent work.
+
+When an agent has a logged-in browser session, it may inherit the user's whole
+account. It can often read private data, change settings, send messages, and
+start purchases. The site may have CSRF tokens and normal app checks, but it
+usually does not know which task the user delegated to the agent.
+
+The user also has weak controls. They can give access or not give access. They
+cannot easily say:
+
+- only this agent,
+- only this website,
+- only cart modification,
+- only below this price,
+- only until tonight,
+- never cancel orders,
+- revoke after the task.
+
+## What a mandate gives
+
+A mandate makes the delegation explicit.
+
+It names the issuer, the agent subject, the allowed scopes, the caps, the
+domains, the maximum risk, the validity window, revocation endpoint, and
+signature. A site can verify the mandate before it accepts a proposal or commit.
+The agent Kernel can also check the same mandate before it lets the model's
+proposal reach the site.
+
+That gives both sides defense in depth. The Kernel should refuse out-of-scope
+work. The Gateway should independently verify the same thing. A prompt injection
+inside a page cannot invent new authority because the model does not hold the
+keys and cannot change the signed mandate.
+
+## Example
+
+A user asks an agent to buy one refundable ticket under INR 5,000.
+
+The mandate can say:
+
+- subject: this agent key,
+- domain: the ticket seller's domain,
+- scope: `commerce.purchase.transport`,
+- cap: INR 5,000,
+- expiry: today,
+- forbidden: cancellation or unrelated purchase scopes,
+- revocation: check this endpoint.
+
+If the agent tries to buy a more expensive ticket, use another domain, or cancel
+an existing booking, the mandate does not cover it. The Kernel should reject the
+proposal, and the site should reject it too.
+
+## Why mandates are better than sessions
+
+A session proves the user logged in. A mandate proves the user delegated a
+specific kind of authority to a specific agent.
+
+That is the difference Ajar needs for real-world action. The agent can still be
+useful, but its power is bounded. The site can accept useful automation without
+pretending the model is the user. The receipt trail can later show whether the
+agent stayed within the signed authority.

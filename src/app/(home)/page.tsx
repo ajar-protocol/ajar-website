@@ -61,6 +61,12 @@ export default function HomePage() {
                 Read the docs
               </Link>
               <Link
+                href="/docs/concepts"
+                className="inline-flex h-11 items-center justify-center rounded-md border bg-fd-background px-5 text-sm font-medium transition hover:bg-fd-accent"
+              >
+                Concept guide
+              </Link>
+              <Link
                 href="https://github.com/ajar-protocol"
                 className="inline-flex h-11 items-center justify-center rounded-md border bg-fd-background px-5 text-sm font-medium transition hover:bg-fd-accent"
               >

@@ -1,0 +1,73 @@
+---
+title: "Action Safety"
+description: "Risk classes, SIMULATE, Offer, and Commit make web actions predictable before execution."
+---
+
+Reading a page and buying a ticket are not the same kind of operation. Ajar
+treats them differently.
+
+The protocol uses risk classes and staged execution so an agent cannot treat
+every website interaction like a harmless click.
+
+## Before Ajar
+
+HTML forms hide intent. A button may search, add an item to a cart, reserve
+inventory, send an email, delete data, submit a filing, or charge money. Humans
+use visual context and habit to understand the difference. Agents often infer
+from labels, nearby text, or previous examples.
+
+That is fragile. A form can change state even if the agent thought it was only
+asking for a quote. A checkout page can add shipping, tax, or fees. Inventory can
+change between the time an agent reads a page and the time it submits. A prompt
+injected into page content can try to steer the model toward the wrong action.
+
+## Risk classes
+
+Ajar actions carry a risk class:
+
+- R0: read-only work, such as search or fetch.
+- R1: reversible writes, such as cart updates, drafts, or temporary holds.
+- R2: irreversible or hard-to-reverse writes, such as messages, deletions, or
+  filings.
+- R3: financial or legal effects, such as purchases, payments, or contracts.
+
+The class decides the minimum safety ceremony. Owners can raise requirements,
+but they cannot lower the protocol floor for risky actions.
+
+## SIMULATE
+
+SIMULATE is the rehearsal primitive. For actions that need it, the site must
+accept the same input and return a prediction without side effects.
+
+That prediction includes the resolved effects and cost. The Kernel checks the
+simulation result against the mandate. It does not trust the model's summary of
+the page. It checks the structured result from the site.
+
+This matters because many mistakes die at simulation time. If a purchase would
+cost more than the cap, if the action would create a non-refundable booking, or
+if the resolved effect is different from what the user asked for, the Kernel can
+stop before anything happens.
+
+## Offer and Commit
+
+For R2 and R3 actions, Ajar uses two-phase execution.
+
+First the agent proposes. The site returns a signed Offer with the action,
+resolved effects, total cost, expiry, and input hash. The offer freezes the
+terms for a short window.
+
+Then the agent commits. The commit includes the offer id, mandate, and agent
+signature binding the offer and mandate. The site verifies everything again and
+executes only if the binding is valid.
+
+## What this resolves
+
+Ajar does not promise that every action is risk-free. It makes the risk visible
+and checkable.
+
+Before Ajar, an agent might click and hope. With Ajar, the agent sees the risk
+class, rehearses the result, checks the mandate, receives a signed offer, and
+commits only inside the authorized boundary.
+
+That changes the safety model from "trust the model to be careful" to "let the
+model propose, but make deterministic code approve or reject."

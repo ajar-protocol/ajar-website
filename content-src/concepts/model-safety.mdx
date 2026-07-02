@@ -1,0 +1,77 @@
+---
+title: "Model Safety"
+description: "Ajar treats the model as a proposer, not as the authority holder or policy engine."
+---
+
+Ajar's safety model starts with a blunt assumption: the model is not trusted for
+authority.
+
+The model can read, summarize, compare, plan, and propose. It should not hold
+keys, approve its own authority, bypass policy, or decide whether an action is
+inside a mandate. That work belongs to deterministic code in the Kernel and the
+Gateway.
+
+## Before Ajar
+
+Many agent systems try to make the model careful through prompts. Prompts help,
+but they are not a security boundary.
+
+A page can contain instructions that try to hijack the model. A product
+description can say "ignore previous instructions." A support article can hide a
+malicious instruction in text. A checkout page can use confusing language. The
+model may still be useful, but it is reading untrusted content from the site.
+
+If the same model also holds the session, the keys, and the ability to execute
+actions, prompt injection becomes much more dangerous.
+
+## Ajar's split
+
+Ajar splits the system into model work and authority work.
+
+The model proposes. It may say: search this catalog, add this item, buy this
+ticket, send this support message, or export this file.
+
+The Kernel checks. It verifies the site manifest, validates the action schema,
+runs simulation when required, checks the mandate scope, checks caps and expiry,
+and decides whether to deny, allow, or escalate.
+
+The Gateway checks too. It verifies the signed request, resolves the audience
+tier, checks owner policy, validates the mandate, checks revocation, enforces
+risk gates, and signs offers and receipts.
+
+That means a prompt injection has to defeat deterministic checks, not only the
+model's wording.
+
+## Data is not instruction
+
+Ajar Views are treated as data. The agent can pass them to the model with
+provenance, but the content itself is not executable. A sentence inside a product
+description cannot grant new scopes, change the risk class, or raise a spending
+cap.
+
+This does not make prompt injection disappear. A malicious page can still waste
+time, bias a recommendation, or push the model toward a bad but in-scope option.
+The point is that it should not be able to create authority the principal did
+not sign.
+
+## Keys stay out of the model
+
+The model should not see the owner key, principal key, agent private key, raw
+payment secret, browser cookie, or refresh token. Keys live in the relevant
+keystore. Signing happens through the Kernel or Gateway.
+
+This is why Ajar uses signed requests and mandates. The model can ask for a
+commit. The Kernel signs only if the policy monitor approves.
+
+## What this resolves
+
+Ajar changes the question from:
+
+"Can the model be trusted not to make a bad call?"
+
+to:
+
+"Can the model's proposed call pass deterministic policy checks?"
+
+That is a much better engineering boundary. It lets the model stay flexible
+without making it the security root.
