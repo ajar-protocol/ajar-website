@@ -1,19 +1,31 @@
 import Link from 'next/link';
 
-const primitives = [
-  ['Meaning', 'Semantic Views served from the same URLs as HTML'],
-  ['Actions', 'Typed Actions with R0-R3 risk classes'],
-  ['Safety', 'SIMULATE dry runs and two-phase Offer/Commit'],
-  ['Authority', 'Principal-signed Mandates with scope, caps, expiry, and revocation'],
-  ['Accountability', 'Dual-signed Receipts and audit trails'],
-  ['Economics', '402-native metering with pluggable settlement'],
+const problemResolutions = [
+  [
+    'Agents scrape pages built for people',
+    'Ajar serves signed semantic Views from the same URLs, so agents can read the meaning without guessing from HTML.',
+  ],
+  [
+    'Login gives too much power',
+    'Ajar keeps cookies out of the model. Users link an account to a principal key and delegate only the scopes an agent needs.',
+  ],
+  [
+    'Owners cannot say what is allowed',
+    'Ajar gives owners a signed manifest and policy surface for exposure, audience, pricing, rate limits, and gates.',
+  ],
+  [
+    'Actions are hard to trust',
+    'Ajar makes risky actions simulate first, freeze into a signed offer, commit only under mandate, and end with a receipt.',
+  ],
 ];
 
-const steps = [
-  'Owner installs a Gateway, plugin, or native integration.',
-  'Owner reviews and signs Views, Actions, policy, pricing, and gates.',
-  'Manifest is published at /.well-known/ajar.json.',
-  'Agents verify, read, simulate, commit, and retain receipts.',
+const flow = [
+  ['1. Publish', 'The owner installs a Gateway or plugin, reviews generated Views and Actions, then signs the manifest.'],
+  ['2. Discover', 'The agent fetches /.well-known/ajar.json, verifies the owner signature, and learns what is exposed.'],
+  ['3. Separate access', 'Public data can be read by policy. Account data requires a linked user account and delegated authority.'],
+  ['4. Rehearse', 'Before risky work, the Kernel asks the site to SIMULATE and checks the result against the mandate.'],
+  ['5. Commit', 'The site issues a signed offer. The agent commits only if the mandate, caps, risk, and cost still match.'],
+  ['6. Keep proof', 'The site and agent store a dual-signed receipt for audit, dispute handling, and accountability.'],
 ];
 
 const accessRules = [
@@ -34,12 +46,12 @@ export default function HomePage() {
             </p>
             <h1 className="text-5xl font-semibold tracking-normal sm:text-6xl lg:text-7xl">Ajar Protocol</h1>
             <p className="mt-6 text-2xl font-medium text-fd-foreground sm:text-3xl">
-              Open websites to AI agents under owner-controlled policy.
+              A safer contract for AI agents using websites.
             </p>
             <p className="mt-6 max-w-2xl text-base leading-7 text-fd-muted-foreground sm:text-lg">
-              Ajar is a protocol layer over HTTPS for agent-readable content, typed actions,
-              delegated authority, verifiable receipts, and metered access. It lets a site say
-              what is public, what needs user authority, and what must be simulated before it runs.
+              Today agents scrape pages, borrow sessions, and submit forms without a clear contract.
+              Ajar lets a website publish what agents may read, what needs user authority, what must
+              be simulated first, and what proof both sides keep afterward.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -67,22 +79,47 @@ export default function HomePage() {
       </section>
 
       <section className="border-b px-6 py-16 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-8 max-w-3xl">
+            <h2 className="text-2xl font-semibold tracking-normal">Problem statement and Ajar resolution</h2>
+            <p className="mt-3 text-sm leading-6 text-fd-muted-foreground">
+              The problem is not that agents cannot click websites. They can. The problem is that
+              clicking gives no reliable boundary between public data, private data, and real-world
+              action. Ajar turns those boundaries into signed protocol objects.
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {problemResolutions.map(([problem, resolution]) => (
+              <div key={problem} className="rounded-lg border bg-fd-card p-5">
+                <p className="text-xs font-medium uppercase tracking-[0.14em] text-fd-muted-foreground">
+                  Problem
+                </p>
+                <h3 className="mt-2 text-base font-semibold">{problem}</h3>
+                <p className="mt-4 text-xs font-medium uppercase tracking-[0.14em] text-fd-muted-foreground">
+                  Ajar resolution
+                </p>
+                <p className="mt-2 text-sm leading-6 text-fd-muted-foreground">{resolution}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b px-6 py-16 sm:px-8 lg:px-10">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div>
-            <h2 className="text-2xl font-semibold tracking-normal">The hard part is authority</h2>
+            <h2 className="text-2xl font-semibold tracking-normal">How Ajar solves it</h2>
             <p className="mt-4 text-sm leading-6 text-fd-muted-foreground">
-              An agent can load a page and submit a form, but that does not tell the website
-              whose authority is being used or what the agent is allowed to do. Giving the model a
-              browser cookie opens too much. Scraping HTML proves too little.
+              Ajar does not ask sites to replace HTML, checkout, or payments. It adds a signed layer
+              beside the existing site, so owners keep control and agents get a stable contract.
             </p>
             <p className="mt-4 text-sm leading-6 text-fd-muted-foreground">
-              Ajar keeps the browser session out of the model. The user logs in normally, links the
-              account to a principal key, and signs a narrow mandate for a specific agent key. The
-              Kernel and Gateway check that mandate before the real account is touched.
+              The core rule is simple: public reads can be open by policy, account reads need user
+              authority, and consequential actions need simulation, mandate checks, and receipts.
             </p>
           </div>
           <div className="grid gap-4">
-            {accessRules.map(([label, text]) => (
+            {flow.map(([label, text]) => (
               <div key={label} className="border-l pl-5">
                 <h3 className="text-sm font-semibold">{label}</h3>
                 <p className="mt-2 text-sm leading-6 text-fd-muted-foreground">{text}</p>
@@ -94,34 +131,18 @@ export default function HomePage() {
 
       <section className="border-b px-6 py-16 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-6xl">
-          <div className="mb-8 max-w-2xl">
-            <h2 className="text-2xl font-semibold tracking-normal">Needs to primitives</h2>
+          <div className="mb-8 max-w-3xl">
+            <h2 className="text-2xl font-semibold tracking-normal">What happens with authentication</h2>
             <p className="mt-3 text-sm leading-6 text-fd-muted-foreground">
-              Ajar standardizes the owner-side contract agents need before they can safely consume
-              content, request actions, and account for outcomes.
+              Ajar avoids the dangerous shortcut: giving the model a full logged-in session. The
+              site still uses its normal login. Ajar adds account binding and limited delegation.
             </p>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {primitives.map(([need, primitive]) => (
-              <div key={need} className="rounded-lg border bg-fd-card p-5">
-                <h3 className="text-sm font-semibold">{need}</h3>
-                <p className="mt-3 text-sm leading-6 text-fd-muted-foreground">{primitive}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b px-6 py-16 sm:px-8 lg:px-10">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="text-2xl font-semibold tracking-normal">How it works</h2>
-          <div className="mt-8 grid gap-4 md:grid-cols-4">
-            {steps.map((step, index) => (
-              <div key={step} className="border-l pl-5">
-                <div className="text-sm font-semibold text-fd-muted-foreground">
-                  {String(index + 1).padStart(2, '0')}
-                </div>
-                <p className="mt-3 text-sm leading-6">{step}</p>
+          <div className="grid gap-4 md:grid-cols-3">
+            {accessRules.map(([label, text]) => (
+              <div key={label} className="rounded-lg border bg-fd-card p-5">
+                <h3 className="text-sm font-semibold">{label}</h3>
+                <p className="mt-3 text-sm leading-6 text-fd-muted-foreground">{text}</p>
               </div>
             ))}
           </div>

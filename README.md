@@ -2,6 +2,13 @@
 
 Static Fumadocs website for ajarprotocol.org.
 
+The site should make Ajar's problem statement obvious before visitors reach the
+spec: agents are using websites through fragile human screens, broad browser
+sessions, and weak evidence trails. Ajar resolves that with a signed site
+contract: public reads by owner policy, account data through delegated user
+authority, risky actions through SIMULATE and Offer/Commit, and receipts for
+audit.
+
 The committed source in this repo is the website shell, the content sync pipeline, and a small `content-src/` directory for site-only overview pages. The published docs under `content/docs/` are generated from canonical sibling repos at build time and are ignored by git.
 
 ## Content sources

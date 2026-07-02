@@ -8,10 +8,10 @@ export const metadata: Metadata = {
     default: 'Ajar Protocol',
     template: '%s | Ajar Protocol',
   },
-  description: 'Open websites to AI agents under owner-controlled policy.',
+  description: 'A signed contract for AI agents using websites: public reads, delegated authority, simulated actions, and receipts.',
   openGraph: {
     title: 'Ajar Protocol',
-    description: 'Open websites to AI agents under owner-controlled policy.',
+    description: 'A signed contract for AI agents using websites: public reads, delegated authority, simulated actions, and receipts.',
     url: 'https://ajarprotocol.org',
     siteName: 'Ajar Protocol',
     type: 'website',
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Ajar Protocol',
-    description: 'Open websites to AI agents under owner-controlled policy.',
+    description: 'A signed contract for AI agents using websites: public reads, delegated authority, simulated actions, and receipts.',
   },
 };
 

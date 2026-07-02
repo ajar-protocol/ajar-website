@@ -1,29 +1,60 @@
 ---
 title: "What is Ajar"
-description: "Ajar is an owner-controlled protocol layer over HTTPS for agent-readable content, typed actions, delegated authority, receipts, and metering."
+description: "Ajar gives websites a signed contract for AI agents: what is public, what needs user authority, what actions exist, and what proof remains afterward."
 ---
 
-Ajar opens websites to AI agents under owner-controlled policy. It gives a site a signed Capability Manifest, semantic Views, typed Actions, Mandates, Receipts, and 402-native metering without replacing HTML, checkout systems, payment rails, MCP, or agent frameworks.
+Ajar opens websites to AI agents under owner-controlled policy. It gives a site
+a signed Capability Manifest, semantic Views, typed Actions, Mandates, Receipts,
+and 402-native metering without replacing HTML, checkout systems, payment rails,
+MCP, or agent frameworks.
 
-## The problem
+## Problem statement
 
 Most agents reach a website the same way a person does: load the page, scrape
 the HTML, follow links, submit a form, and sometimes carry a browser session.
-That is a poor contract for both sides. The agent may not know whether it is
-reading public content or account data. The owner cannot clearly say which
-agents may enter, what they may read, what they may do, or what each action
-costs. The user has no good way to delegate only a narrow job.
+That works for demos, but it is a poor contract for real websites.
 
-Ajar makes those boundaries explicit. Public content can be exposed without a
-user session when the owner allows it. Account-specific data, such as orders,
-invoices, carts, saved addresses, and support tickets, requires user authority.
-Actions that change state, spend money, send messages, export data, or delete
-data require a mandate, a simulation, a signed offer, and a receipt.
+Four things go wrong:
+
+- The agent cannot reliably tell public content from account data.
+- The website owner cannot publish a clear machine-readable policy.
+- The user cannot delegate only a narrow job without handing over broad session
+  power.
+- A purchase, message, deletion, export, or legal action often leaves weak proof
+  of what was approved and what happened.
+
+## What Ajar resolves
+
+| Problem | Ajar resolution |
+|---|---|
+| Agents scrape HTML and guess meaning | Semantic Views expose signed, structured content from the same URLs |
+| Owners cannot govern agent access | The signed Manifest declares exposed resources, actions, tiers, prices, and gates |
+| User login is too broad for delegation | Principal-signed Mandates grant narrow scopes, caps, domains, expiry, and revocation |
+| Risky actions are easy to misfire | SIMULATE, signed Offers, signed Commits, and Receipts make execution checkable |
+| Reads, writes, and payments blur together | R0-R3 risk classes separate public reads, reversible writes, irreversible actions, and financial/legal effects |
+
+## How Ajar solves it
+
+1. **Owner publishes the contract.** The site owner installs a Gateway, plugin,
+   or native integration. The owner reviews generated Views, Actions, policy,
+   pricing, and gates, then signs the manifest at `/.well-known/ajar.json`.
+2. **Agent verifies before acting.** The agent Kernel fetches the manifest,
+   checks signatures, and learns what is exposed and under what conditions.
+3. **Public reads stay simple.** Catalog pages, docs, public prices, and blog
+   posts can be exposed without a user session if owner policy allows it.
+4. **Account reads require authority.** Orders, invoices, carts, profiles, saved
+   addresses, and support tickets require a linked account and a principal
+   mandate.
+5. **Risky actions rehearse first.** For irreversible, legal, financial, or
+   personal-data actions, the Kernel asks the site to SIMULATE and checks the
+   result against the mandate.
+6. **Commit leaves proof.** The site signs an Offer, the agent commits only if
+   policy and mandate still match, and both sides keep the Receipt.
 
 The model does not need the user's cookie. The user logs in normally, links the
 account to a principal key, and signs a mandate for a specific agent key. The
-agent can ask to act, but the Kernel and Gateway check the signed authority
-before the site touches the real account.
+model can propose work, but the Kernel and Gateway check signed authority before
+the site touches the real account.
 
 ## Primitives
 
