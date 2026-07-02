@@ -1,0 +1,14 @@
+---
+title: "Schemas"
+description: "JSON Schemas define the machine-readable shape of Ajar manifests, views, actions, mandates, offers, receipts, policies, errors, and simulations."
+---
+
+The canonical JSON Schemas live in the protocol repository under [`schemas/`](https://github.com/ajar-protocol/ajar/tree/main/schemas). They define manifests, views, actions, mandates, offers, receipts, policies, errors, and simulations.
+
+Use the schemas together with the normative [protocol specification](/docs/protocol/spec), golden [examples](https://github.com/ajar-protocol/ajar/tree/main/examples), and [test vectors](/docs/reference/test-vectors). From the `ajar` repo, run:
+
+```bash
+make validate
+```
+
+The validation target checks schemas, examples, vectors, local Markdown links, and Markdown hygiene.

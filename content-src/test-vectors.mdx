@@ -1,0 +1,14 @@
+---
+title: "Test vectors"
+description: "Seed conformance vectors cover signing, HTTP signatures, manifest checks, runtime behavior, scopes, extensions, and MUST coverage."
+---
+
+The canonical conformance seed data lives in the protocol repository under [`test-vectors/`](https://github.com/ajar-protocol/ajar/tree/main/test-vectors). These vectors cover signing, HTTP signatures, manifest checks, runtime behavior, scope matching, extension handling, and MUST coverage.
+
+Use them as executable evidence for implementations and as fixtures for future conformance harnesses. From the `ajar` repo, run:
+
+```bash
+make validate
+```
+
+The same validation command checks the schemas and golden examples used by the vectors.

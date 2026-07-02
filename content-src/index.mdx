@@ -1,0 +1,39 @@
+---
+title: "What is Ajar"
+description: "Ajar is an owner-controlled protocol layer over HTTPS for agent-readable content, typed actions, delegated authority, receipts, and metering."
+---
+
+Ajar opens websites to AI agents under owner-controlled policy. It gives a site a signed Capability Manifest, semantic Views, typed Actions, Mandates, Receipts, and 402-native metering without replacing HTML, checkout systems, payment rails, MCP, or agent frameworks.
+
+## Primitives
+
+| Need | Ajar primitive |
+|---|---|
+| Meaning | Semantic Views served from the same URLs as HTML |
+| Actions | Typed Actions with R0-R3 risk classes |
+| Safety | SIMULATE dry runs and two-phase Offer/Commit |
+| Authority | Principal-signed Mandates with scope, caps, expiry, and revocation |
+| Accountability | Dual-signed Receipts and audit trails |
+| Economics | 402-native metering with pluggable settlement |
+
+## How it works
+
+1. A site owner installs or runs an Ajar Gateway, plugin, or native integration.
+2. The owner reviews generated Views, Actions, policy, pricing, and gates.
+3. The owner signs a Capability Manifest at `/.well-known/ajar.json`.
+4. An agent Kernel discovers the manifest, verifies signatures, reads Views, simulates actions, checks mandates, commits only when allowed, and stores receipts.
+
+The owner key is the root of authority. Automation drafts; owners decide.
+
+## Reading order
+
+Start with the [protocol specification](/docs/protocol/spec) if you are implementing. Read [architecture](/docs/protocol/architecture) for the system walkthrough, [security model](/docs/protocol/security-model) for threat boundaries, and [owner control](/docs/protocol/owner-control) for policy semantics.
+
+New contributors should begin with [onboarding](/docs/contributing/onboarding), then the [roadmap](/docs/project/roadmap) and [build order](/docs/project/build-order).
+
+## GitHub
+
+- [Ajar organization](https://github.com/ajar-protocol)
+- [Protocol specification repo](https://github.com/ajar-protocol/ajar)
+- [Planning repo](https://github.com/ajar-protocol/planning)
+- [Organization guides](https://github.com/ajar-protocol/.github)

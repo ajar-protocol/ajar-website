@@ -1,0 +1,77 @@
+# Required secrets:
+# - CLOUDFLARE_API_TOKEN
+# - CLOUDFLARE_ACCOUNT_ID
+#
+# One-time Cloudflare setup:
+# - Create a Pages project named ajar-website.
+# - Attach the custom domain ajarprotocol.org to that Pages project.
+
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  repository_dispatch:
+    types: [content-updated]
+  schedule:
+    - cron: "0 3 * * *"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout website
+        uses: actions/checkout@v4
+        with:
+          path: ajar-website
+
+      - name: Checkout protocol source
+        uses: actions/checkout@v4
+        with:
+          repository: ajar-protocol/ajar
+          path: ajar
+          fetch-depth: 1
+
+      - name: Checkout organization guides
+        uses: actions/checkout@v4
+        with:
+          repository: ajar-protocol/.github
+          path: org-guides
+          fetch-depth: 1
+
+      - name: Checkout planning source
+        uses: actions/checkout@v4
+        with:
+          repository: ajar-protocol/planning
+          path: planning
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ajar-website/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ajar-website
+
+      - name: Build
+        run: npm run build
+        working-directory: ajar-website
+        env:
+          AJAR_DIR: ../ajar
+          GITHUB_DIR: ../org-guides
+          PLANNING_DIR: ../planning
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy out --project-name=ajar-website
+          workingDirectory: ajar-website
