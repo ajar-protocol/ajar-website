@@ -13,6 +13,30 @@ submission mutates state, which action costs money, or who approved the action.
 The result is a fragile arrangement where the agent guesses and the website
 hopes the guess is harmless.
 
+```mermaid
+flowchart LR
+  subgraph Before["Before Ajar"]
+    Page["HTML page"]
+    Cookie["Broad browser session"]
+    Form["Opaque form submit"]
+    WeakProof["Scattered weak proof"]
+  end
+
+  subgraph After["With Ajar"]
+    Manifest["Signed Manifest"]
+    Views["Semantic Views"]
+    Mandates["Scoped Mandates"]
+    Ceremony["SIMULATE Offer Commit"]
+    Receipts["Dual signed Receipts"]
+  end
+
+  Page --> Manifest
+  Cookie --> Mandates
+  Form --> Ceremony
+  WeakProof --> Receipts
+  Manifest --> Views
+```
+
 ## What goes wrong today
 
 Agents scrape HTML and treat it as source-of-truth data. That fails when the

@@ -9,6 +9,24 @@ agent committed, and what the site executed.
 
 Ajar receipts are designed for that.
 
+```mermaid
+flowchart LR
+  Mandate["Principal mandate"]
+  Simulation["Simulation result"]
+  Offer["Site signed Offer"]
+  Commit["Agent signed Commit"]
+  Execution["Execution result"]
+  Receipt["Dual signed Receipt"]
+  Audit["Audit dispute liability"]
+
+  Mandate --> Receipt
+  Simulation --> Receipt
+  Offer --> Receipt
+  Commit --> Receipt
+  Execution --> Receipt
+  Receipt --> Audit
+```
+
 ## Before Ajar
 
 Normal web automation leaves scattered logs. The browser may have history. The

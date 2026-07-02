@@ -13,6 +13,24 @@ scopes, caps, domain constraints, validity dates, and revocation. The mandate is
 not a password and not a browser cookie. It is a limited instruction that can be
 checked by deterministic code.
 
+```mermaid
+sequenceDiagram
+  participant Principal
+  participant Kernel as Agent Kernel
+  participant Agent
+  participant Gateway
+  participant Site
+
+  Principal->>Kernel: Sign mandate for agent key
+  Kernel->>Agent: Store scoped authority
+  Agent->>Kernel: Propose action
+  Kernel->>Kernel: Check scope caps domain expiry
+  Kernel->>Gateway: Signed request plus mandate
+  Gateway->>Gateway: Verify agent signature and mandate
+  Gateway->>Site: Execute only if covered
+  Site-->>Gateway: Result
+```
+
 ## Before Ajar
 
 Most websites understand two states: logged out or logged in. That is not enough

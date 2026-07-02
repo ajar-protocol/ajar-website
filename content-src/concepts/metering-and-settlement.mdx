@@ -9,6 +9,24 @@ part of the owner contract instead of leaving it as an afterthought.
 The important boundary is this: Ajar declares pricing, metering, offers, and
 settlement adapters. It does not become the payment rail.
 
+```mermaid
+flowchart LR
+  Policy["Owner pricing policy"]
+  Offer["Ajar signed Offer with total cost"]
+  Cap["Mandate cap check"]
+  Adapter["Settlement adapter"]
+  Rail["Payment rail"]
+  Receipt["Ajar Receipt references settlement proof"]
+
+  Policy --> Offer
+  Offer --> Cap
+  Cap -->|within cap| Adapter
+  Adapter --> Rail
+  Rail --> Adapter
+  Adapter --> Receipt
+  Offer --> Receipt
+```
+
 ## Before Ajar
 
 Many sites see automated traffic as cost without attribution. Agents fetch heavy

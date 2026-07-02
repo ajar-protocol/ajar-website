@@ -14,6 +14,26 @@ action requires a user mandate."
 
 The owner contract is the answer to that gap.
 
+```mermaid
+flowchart TB
+  Owner["Site owner"]
+  Policy["Owner policy"]
+  Manifest["Signed Capability Manifest"]
+  Views["Views"]
+  Actions["Actions"]
+  Gates["Risk gates"]
+  Pricing["Pricing and metering"]
+  Logs["Receipts and logs"]
+
+  Owner --> Policy
+  Policy --> Manifest
+  Manifest --> Views
+  Manifest --> Actions
+  Manifest --> Gates
+  Manifest --> Pricing
+  Actions --> Logs
+```
+
 ## Before Ajar
 
 The site owner has scattered controls:

@@ -6,6 +6,30 @@ description: "A complete walkthrough from website owner setup to agent read, sim
 This page shows the Ajar flow as one story. The exact schemas live in the
 protocol spec. The goal here is to show how the pieces fit together.
 
+```mermaid
+sequenceDiagram
+  participant Owner
+  participant Gateway
+  participant Principal
+  participant Kernel as Agent Kernel
+  participant Model
+  participant Site
+
+  Owner->>Gateway: Review policy and sign manifest
+  Principal->>Kernel: Sign mandate for task
+  Kernel->>Gateway: Fetch and verify manifest
+  Kernel->>Gateway: Read public Views
+  Model->>Kernel: Propose action
+  Kernel->>Gateway: SIMULATE action
+  Gateway-->>Kernel: Predicted effects and cost
+  Kernel->>Kernel: Check mandate and caps
+  Kernel->>Gateway: Propose
+  Gateway-->>Kernel: Signed Offer
+  Kernel->>Gateway: Commit with mandate binding
+  Gateway->>Site: Execute backend action
+  Gateway-->>Kernel: Signed Receipt
+```
+
 ## 1. The owner prepares the site
 
 A website owner installs an Ajar Gateway, plugin, edge worker, or native

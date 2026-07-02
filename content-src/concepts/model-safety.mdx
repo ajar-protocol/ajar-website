@@ -11,6 +11,24 @@ keys, approve its own authority, bypass policy, or decide whether an action is
 inside a mandate. That work belongs to deterministic code in the Kernel and the
 Gateway.
 
+```mermaid
+flowchart LR
+  Content["Site content as data"]
+  Model["Model proposes"]
+  Monitor["Kernel Policy Monitor"]
+  Keys["Keystore"]
+  Gateway["Gateway policy check"]
+  Execute["Execute or deny"]
+
+  Content --> Model
+  Model --> Monitor
+  Keys --> Monitor
+  Monitor -->|Allowed| Gateway
+  Monitor -->|Denied| Execute
+  Gateway --> Execute
+  Keys -. never exposed .-> Model
+```
+
 ## Before Ajar
 
 Many agent systems try to make the model careful through prompts. Prompts help,

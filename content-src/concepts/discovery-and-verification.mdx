@@ -10,6 +10,22 @@ Ajar separates discovery from verification. An index can suggest a site. The
 agent still has to fetch the manifest from the origin and verify it before
 relying on anything.
 
+```mermaid
+sequenceDiagram
+  participant User
+  participant Kernel as Agent Kernel
+  participant Index
+  participant Origin as Website origin
+
+  User->>Kernel: Find a site for the task
+  Kernel->>Index: Query candidate capabilities
+  Index-->>Kernel: Candidate manifest references
+  Kernel->>Origin: Fetch well-known manifest
+  Origin-->>Kernel: Signed manifest
+  Kernel->>Kernel: Verify signature domain expiry sequence
+  Kernel-->>User: Use only verified capabilities
+```
+
 ## Before Ajar
 
 Without a signed site contract, an agent may depend on search results, scraped

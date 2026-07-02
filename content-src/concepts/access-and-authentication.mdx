@@ -11,6 +11,26 @@ This is the first rule to understand:
 Public data can be exposed by owner policy. Account data requires user
 authority. Consequential actions require stronger proof and receipts.
 
+```mermaid
+flowchart TD
+  Request["Agent request"]
+  Public{"Public resource?"}
+  Account{"Account data?"}
+  Risky{"State change or high risk?"}
+  OwnerPolicy["Owner policy allows read"]
+  Linked["Linked account and mandate"]
+  Ceremony["Mandate plus SIMULATE Offer Commit Receipt"]
+  Deny["Deny or ask for human approval"]
+
+  Request --> Public
+  Public -->|Yes| OwnerPolicy
+  Public -->|No| Account
+  Account -->|Yes| Linked
+  Account -->|No| Risky
+  Risky -->|Yes| Ceremony
+  Risky -->|No| Deny
+```
+
 ## Before Ajar
 
 Many agent workflows use a browser session because it is the easiest way to get

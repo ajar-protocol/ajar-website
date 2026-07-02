@@ -9,6 +9,22 @@ treats them differently.
 The protocol uses risk classes and staged execution so an agent cannot treat
 every website interaction like a harmless click.
 
+```mermaid
+flowchart TD
+  Action["Declared Action"]
+  Risk{"Risk class"}
+  R0["R0 read: direct allowed by policy"]
+  R1["R1 reversible write: idempotency and SIMULATE"]
+  R2["R2 hard to reverse: SIMULATE Offer Commit Receipt Mandate"]
+  R3["R3 financial or legal: R2 plus settlement and amount caps"]
+
+  Action --> Risk
+  Risk --> R0
+  Risk --> R1
+  Risk --> R2
+  Risk --> R3
+```
+
 ## Before Ajar
 
 HTML forms hide intent. A button may search, add an item to a cart, reserve

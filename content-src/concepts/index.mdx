@@ -10,6 +10,24 @@ flow.
 
 Read these when you want the reasoning before the fields.
 
+```mermaid
+flowchart LR
+  Problem["Problem: agents guess from pages and sessions"]
+  Contract["Owner contract: signed Manifest"]
+  Meaning["Meaning: signed Views"]
+  Authority["Authority: Mandates"]
+  Safety["Safety: SIMULATE and Offer Commit"]
+  Proof["Proof: Receipts"]
+  Money["Economics: Metering and settlement adapters"]
+
+  Problem --> Contract
+  Contract --> Meaning
+  Contract --> Authority
+  Contract --> Safety
+  Safety --> Proof
+  Safety --> Money
+```
+
 | Page | What it explains |
 |---|---|
 | [Problem statement](/docs/concepts/problem-statement) | Why scraping, forms, browser sessions, and weak proof are not enough |
