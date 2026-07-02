@@ -16,6 +16,12 @@ const steps = [
   'Agents verify, read, simulate, commit, and retain receipts.',
 ];
 
+const accessRules = [
+  ['Public data', 'Catalog pages, docs, public prices, and blog posts can be exposed without a user session.'],
+  ['Account data', 'Orders, carts, invoices, profiles, and tickets need a linked account and user authority.'],
+  ['Risky actions', 'Purchases, messages, exports, deletes, and legal changes need mandates, simulation, offers, and receipts.'],
+];
+
 export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-fd-background text-fd-foreground">
@@ -32,8 +38,8 @@ export default function HomePage() {
             </p>
             <p className="mt-6 max-w-2xl text-base leading-7 text-fd-muted-foreground sm:text-lg">
               Ajar is a protocol layer over HTTPS for agent-readable content, typed actions,
-              delegated authority, verifiable receipts, and metered access. Owners publish signed
-              manifests; agents verify before they read or act.
+              delegated authority, verifiable receipts, and metered access. It lets a site say
+              what is public, what needs user authority, and what must be simulated before it runs.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -57,6 +63,32 @@ export default function HomePage() {
           >
             v0.1 draft · Phase 1 (Gateway MVP) in progress · Apache-2.0 / CC-BY-4.0
           </Link>
+        </div>
+      </section>
+
+      <section className="border-b px-6 py-16 sm:px-8 lg:px-10">
+        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <div>
+            <h2 className="text-2xl font-semibold tracking-normal">The hard part is authority</h2>
+            <p className="mt-4 text-sm leading-6 text-fd-muted-foreground">
+              An agent can load a page and submit a form, but that does not tell the website
+              whose authority is being used or what the agent is allowed to do. Giving the model a
+              browser cookie opens too much. Scraping HTML proves too little.
+            </p>
+            <p className="mt-4 text-sm leading-6 text-fd-muted-foreground">
+              Ajar keeps the browser session out of the model. The user logs in normally, links the
+              account to a principal key, and signs a narrow mandate for a specific agent key. The
+              Kernel and Gateway check that mandate before the real account is touched.
+            </p>
+          </div>
+          <div className="grid gap-4">
+            {accessRules.map(([label, text]) => (
+              <div key={label} className="border-l pl-5">
+                <h3 className="text-sm font-semibold">{label}</h3>
+                <p className="mt-2 text-sm leading-6 text-fd-muted-foreground">{text}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

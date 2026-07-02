@@ -5,6 +5,26 @@ description: "Ajar is an owner-controlled protocol layer over HTTPS for agent-re
 
 Ajar opens websites to AI agents under owner-controlled policy. It gives a site a signed Capability Manifest, semantic Views, typed Actions, Mandates, Receipts, and 402-native metering without replacing HTML, checkout systems, payment rails, MCP, or agent frameworks.
 
+## The problem
+
+Most agents reach a website the same way a person does: load the page, scrape
+the HTML, follow links, submit a form, and sometimes carry a browser session.
+That is a poor contract for both sides. The agent may not know whether it is
+reading public content or account data. The owner cannot clearly say which
+agents may enter, what they may read, what they may do, or what each action
+costs. The user has no good way to delegate only a narrow job.
+
+Ajar makes those boundaries explicit. Public content can be exposed without a
+user session when the owner allows it. Account-specific data, such as orders,
+invoices, carts, saved addresses, and support tickets, requires user authority.
+Actions that change state, spend money, send messages, export data, or delete
+data require a mandate, a simulation, a signed offer, and a receipt.
+
+The model does not need the user's cookie. The user logs in normally, links the
+account to a principal key, and signs a mandate for a specific agent key. The
+agent can ask to act, but the Kernel and Gateway check the signed authority
+before the site touches the real account.
+
 ## Primitives
 
 | Need | Ajar primitive |
